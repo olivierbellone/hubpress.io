@@ -1,4 +1,5 @@
 = Using TLS 1.2 with Python on OS X
+:published_at: 2016-10-22
 :hp-tags: TLS, Python, OS X,
 
 TLS 1.0 and 1.1 are no longer considered secure, and more and more services will require the use of TLS 1.2 (particularly in the payment industry, as the PCI council will require everyone to use TLS 1.2 by https://blog.pcisecuritystandards.org/migrating-from-ssl-and-early-tls[mid-2018]). However, if you're using Python on OS X, you won't be able to use TLS 1.2 out of the box.
@@ -15,7 +16,7 @@ If the output starts with `OpenSSL 0.9.8`, then you won't be able to use TLS 1.2
 
 (You need to have http://docs.python-requests.org[Requests] installed to run the above command, but really, if you're going to do anything with HTTP(S) in Python, you probably want this module anyway.)
 
-So how do we fix this? The simplest solution is to use http://brew.sh[Homebrew]. Homebrew is a package manager for OS X. It has its flaws, but it remains one of the most convenient way to install and update software packages on OS X. Follow the instructions on the website to install it if you're not already using it, then run:
+So how do we fix this? The simplest solution is to use http://brew.sh[Homebrew]. Homebrew is a package manager for OS X. Follow the instructions on the website to install it if you're not already using it, then run:
 
     $ brew update
     $ brew install openssl
