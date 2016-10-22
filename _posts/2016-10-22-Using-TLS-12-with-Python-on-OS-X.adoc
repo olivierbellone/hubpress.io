@@ -14,7 +14,7 @@ If the output starts with `OpenSSL 0.9.8`, then you won't be able to use TLS 1.2
 
 (You need to have http://docs.python-requests.org[Requests] installed to run the above command, but really, if you're going to do anything with HTTP(S) in Python, you probably want this module anyway.)
 
-So how do we fix this? The simplest solution is to use http://brew.sh[Homebrew]. Homebrew is a package manager for OS X. While not perfect, it is extremely convenient to install and update software packages. Follow the instructions on the website to install it if you're not already using it, then run:
+So how do we fix this? The simplest solution is to use http://brew.sh[Homebrew]. Homebrew is a package manager for OS X. It has its flaws, but it remains one of the most convenient way to install and update software packages on OS X. Follow the instructions on the website to install it if you're not already using it, then run:
 
     $ brew update
     $ brew install openssl
