@@ -1,0 +1,46 @@
+# Using TLS 1.2 with Python on OS X
+
+TLS 1.0 and 1.1 are no longer considered secure, and more and more services will require the use of TLS 1.2. However, if you're using Python on OS X, you won't be able to use TLS 1.2 out of the box.
+
+This is because, for hatever reason, OS X (or macOS now) ships with OpenSSL 0.9.8, which doesn't support TLS 1.2 (support for TLS 1.2 was introduced in OpenSSL 1.0.1). By default, your Python interpreter will be linked against this version of OpenSSL which in turn means that you won't be able to establish TLS 1.2 connections from your Python apps.
+
+You can easily check which OpenSSL version is used by your Python interpreter:
+
+    $ python -c "import ssl; print(ssl.OPENSSL_VERSION)"
+
+If the output starts with `OpenSSL 0.9.8`, then you won't be able to use TLS 1.2. You can easily check this with the cool API from the awesome people at https://www.howsmyssl.com:
+
+    $ python -c "import requests; print(requests.get('https://www.howsmyssl.com/a/check').json()['tls_version'])"
+
+(You need to have [Requests](http://docs.python-requests.org) installed to run the above command, but really, if you're going to do anything with HTTP(S) in Python, you probably want this module anyway.)
+
+So how do we fix this? The simplest solution is to use [Homebrew](http://brew.sh). Homebrew is a package manager for OS X. While not perfect, it is extremely convenient to install and update software packages. Follow the instructions on the website to install it if you're not already using it, then run:
+
+    $ brew update
+    $ brew install openssl
+    $ brew install python --with-brewed-openssl
+
+(Replace `python` with `python3` for Python 3.)
+
+This will install an up-to-date version of OpenSSL (1.0.2j at the time of this writing), then install an up-to-date version of Python linked against the updated OpenSSL.
+
+Check the results with the two one-liners at the beginning of this post:
+
+    $ python -c "import ssl; print(ssl.OPENSSL_VERSION)"
+    OpenSSL 1.0.2j  26 Sep 2016
+    $ python -c "import requests; print(requests.get('https://www.howsmyssl.com/a/check').json()['tls_version'])"
+    TLS 1.2
+
+Ta-da!
+
+If you're using [pyenv](https://github.com/yyuu/pyenv#simple-python-version-management-pyenv) (and if you're not, give it a try, it's a pretty cool tool!), just install OpenSSL through Homebrew, then reinstall your Python version:
+
+    $ pyenv install 2.7.12
+
+This worked for me, but apparently in some cases pyenv will still use the older OpenSSL version. Fortunately, the solution can be found in [pyenv's wiki](https://github.com/yyuu/pyenv/wiki/Common-build-problems#error-the-python-ssl-extension-was-not-compiled-missing-the-openssl-lib):
+
+    $ CFLAGS="-I$(brew --prefix openssl)/include" \
+    LDFLAGS="-L$(brew --prefix openssl)/lib" \
+    pyenv install -v 2.7.12
+
+Now all your Python apps will be able to enjoy the TLS 1.2 goodness!
