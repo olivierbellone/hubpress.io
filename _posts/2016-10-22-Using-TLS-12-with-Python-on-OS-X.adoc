@@ -1,4 +1,5 @@
-# Using TLS 1.2 with Python on OS X
+= Using TLS 1.2 with Python on OS X
+:hp-tags: TLS, Python, OS X,
 
 TLS 1.0 and 1.1 are no longer considered secure, and more and more services will require the use of TLS 1.2 (particularly in the payment industry, as the PCI council will require everyone to use TLS 1.2 by https://blog.pcisecuritystandards.org/migrating-from-ssl-and-early-tls[mid-2018]). However, if you're using Python on OS X, you won't be able to use TLS 1.2 out of the box.
 
